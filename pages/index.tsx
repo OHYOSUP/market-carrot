@@ -1,23 +1,43 @@
 import type { NextPage } from "next";
-import FloatingButton from "../components/floating-button";
-import Item from "../components/item";
-import Layout from "../components/layout";
+import FloatingButton from "@components/floating-button";
+import Item from "@components/item";
+import Layout from "@components/layout";
+import useUser from "@libs/client/useUser";
+import useSWR from "swr";
+import { Fav, Product, User } from "@prisma/client";
+import Head from "next/head";
+
+interface favCountState extends Product {
+  _count: {
+    fav: number;
+  }
+}
+
+interface UploadProductForm {
+  ok: boolean;
+  products: favCountState[]
+}
 
 const Home: NextPage = () => {
+  const { data } = useSWR<UploadProductForm>("/api/products");
+  const { user, isLoading } = useUser();
   return (
     <Layout title="홈" hasTabBar>
+      <Head>
+        <title>Home</title>
+      </Head>
       <div className="flex flex-col space-y-5 divide-y">
-        {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
+        {data?.products.map((product) => (
           <Item
-            id={i}
-            key={i}
-            title="iPhone 14"
-            price={99}
+            id={product.id}
+            key={product.id}
+            title={product.name}
+            price={product.price}
             comments={1}
-            hearts={1}
+            hearts={product._count.fav}
           />
         ))}
-        <FloatingButton href="/items/upload">
+        <FloatingButton href="/products/upload">
           <svg
             className="h-6 w-6"
             xmlns="http://www.w3.org/2000/svg"
