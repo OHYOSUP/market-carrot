@@ -4,10 +4,11 @@ interface TextAreaProps {
   label?: string;
   name?: string;
   [key: string]: any;
+  placeholder: string;
   register: UseFormRegisterReturn
 }
 
-export default function TextArea({ label, name, register }: TextAreaProps) {
+export default function TextArea({ label, name, placeholder, register }: TextAreaProps) {
   return (
     <div>
       {label ? (
@@ -20,6 +21,7 @@ export default function TextArea({ label, name, register }: TextAreaProps) {
       ) : null}
       <textarea
         id={name}
+        placeholder={placeholder}
         className="mt-1 shadow-sm w-full focus:ring-orange-500 rounded-md border-gray-300 focus:border-orange-500 "
         rows={4}
         {...register}

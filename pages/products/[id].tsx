@@ -24,13 +24,16 @@ const ItemDetail: NextPage = () => {
   const { data, mutate } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
-  const [toogleFav] = useMutation(`/api/products/${router.query.id}/fav`);
+  const [toogleFav, { loading }] = useMutation(
+    `/api/products/${router.query.id}/fav`
+  );
 
   const onFavClick = () => {
     toogleFav({});
     if (!data) return;
-
-    mutate({ ...data, isLiked: !data.isLiked }, false);
+    if (!loading) {
+      mutate({ ...data, isLiked: !data.isLiked }, false);
+    }
   };
 
   return (

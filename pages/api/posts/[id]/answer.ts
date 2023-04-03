@@ -10,42 +10,37 @@ async function handler(
   const {
     query: { id },
     session: { user },
+    body: { reply },
   } = req;
 
-  const alreadyExists = await client.fav.findFirst({
+  const post = await client.post.findUnique({
     where: {
-      userId: user?.id,
-      productId: Number(id)
+      id: Number(id),
+    },
+    select: {
+      id: true,
     },
   });
 
-  if (alreadyExists) {
-    await client.fav.delete({
-      where: {
-        id: alreadyExists.id,
-      },
-    });
-  } else {
-    await client.fav.create({
-      data: {
-        user: {
-          connect: {
-            id: user?.id,
-          },
-        },
-        product: {
-          connect: {
-            id: Number(id),
-          },
+  const newAnswer = await client.answer.create({
+    data: {
+      user: {
+        connect: {
+          id: user?.id,
         },
       },
-    });
-  }
-
-
-
+      post: {
+        connect: {
+          id: Number(id),
+        },
+      },
+      answerText: reply,
+    },
+  });
+  console.log(newAnswer);
   res.json({
     ok: true,
+    newAnswer,
   });
 }
 

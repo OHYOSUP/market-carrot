@@ -12,7 +12,6 @@ interface favCountState extends Product {
     fav: number;
   }
 }
-
 interface UploadProductForm {
   ok: boolean;
   products: favCountState[]
