@@ -6,7 +6,7 @@ import { cls } from "@libs/client/utils";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import { useRouter } from "next/router";
-
+import Error from 'next/error'
 interface EnterForm {
   email?: string;
   phone?: string;
@@ -57,7 +57,7 @@ const Enter: NextPage = () => {
   },[tokenData, router])
 
   return (
-    <div className="mt-16 px-4">
+    <div className="mt-16 px-4">            
       <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
       <div className="mt-12">
         {data?.ok ? (

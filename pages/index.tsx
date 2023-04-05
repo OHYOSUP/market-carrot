@@ -4,12 +4,12 @@ import Item from "@components/item";
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
 import useSWR from "swr";
-import { Fav, Product, User } from "@prisma/client";
+import {  Product, User } from "@prisma/client";
 import Head from "next/head";
 
-interface favCountState extends Product {
+export interface favCountState extends Product {
   _count: {
-    fav: number;
+    records: number;
   }
 }
 interface UploadProductForm {
@@ -26,14 +26,14 @@ const Home: NextPage = () => {
         <title>Home</title>
       </Head>
       <div className="flex flex-col space-y-5 divide-y">
-        {data?.products.map((product) => (
+        {data?.products?.map((product) => (
           <Item
             id={product.id}
             key={product.id}
-            title={product.name}
+            title={product.name}  
             price={product.price}
             comments={1}
-            hearts={product._count.fav}
+            hearts={product._count.records}
           />
         ))}
         <FloatingButton href="/products/upload">

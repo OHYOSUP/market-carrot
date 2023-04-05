@@ -52,7 +52,7 @@ async function handler(
       },
     },
   });
-  console.log(token)
+  
 
   return res.json({ ok: true, token });
 }

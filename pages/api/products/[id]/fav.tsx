@@ -12,22 +12,24 @@ async function handler(
     session: { user },
   } = req;
 
-  const alreadyExists = await client.fav.findFirst({
+  const alreadyExists = await client.record.findFirst({
     where: {
+      kind: "Fav",
       userId: user?.id,
-      productId: Number(id)
+      productId: Number(id),
     },
   });
 
   if (alreadyExists) {
-    await client.fav.delete({
+    await client.record.delete({
       where: {
         id: alreadyExists.id,
       },
     });
   } else {
-    await client.fav.create({
+    await client.record.create({
       data: {
+        kind: "Fav",
         user: {
           connect: {
             id: user?.id,
@@ -41,8 +43,6 @@ async function handler(
       },
     });
   }
-
-
 
   res.json({
     ok: true,

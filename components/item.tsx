@@ -1,3 +1,4 @@
+import { Record } from "@prisma/client";
 import Link from "next/link";
 
 interface ItemProps {
