@@ -2,14 +2,23 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import useSWR from "swr";
 
+interface EditProfileResponse {
+  email?: string;
+  phone?: string;
 
-export default function useUser() {
+}
+
+
+export default function useUser<EditProfileResponse>() {
   const { data, error } = useSWR("/api/users/me");
   const router = useRouter();
 
   useEffect(() => {
     if (data && !data.ok) {
       router.replace("/enter");
+    }
+    if (data && data.ok && router.pathname === "/enter") {
+      router.replace("/profile")
     }
   }, [data, router]);
 

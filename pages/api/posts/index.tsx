@@ -10,6 +10,7 @@ async function handler(
   const {
     body: { question, latitude, longitude },
     session: { user },
+    // query: { page },
   } = req;
 
   if (req.method === "POST") {
@@ -37,8 +38,10 @@ async function handler(
     } = req;
     const parsedLatitude = parseFloat(latitude.toString());
     const parsedLongitude = parseFloat(longitude.toString());
-
+    // const postsCount = await client.post.count();
     const posts = await client.post.findMany({
+      // take: 10,
+      // skip: (+page - 1) * 10,
       include: {
         user: {
           select: {
@@ -70,6 +73,7 @@ async function handler(
     res.json({
       ok: true,
       posts,
+      // pages: Math.ceil(postsCount / 10),
     });
   }
 }

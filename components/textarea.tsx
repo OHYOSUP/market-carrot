@@ -4,7 +4,7 @@ interface TextAreaProps {
   label?: string;
   name?: string;
   [key: string]: any;
-  placeholder: string;
+  placeholder?: string;
   register: UseFormRegisterReturn
 }
 

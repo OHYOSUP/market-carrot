@@ -1,12 +1,14 @@
+import useUser from "@libs/client/useUser";
 import { Record } from "@prisma/client";
 import Link from "next/link";
-
+import useSWR from "swr";
 interface ItemProps {
   title: string;
   id: number;
   price: number;
   comments: number;
   hearts: number;
+  imageURL: string;
 }
 
 export default function Item({
@@ -14,13 +16,26 @@ export default function Item({
   price,
   comments,
   hearts,
+  imageURL,
   id,
 }: ItemProps) {
+  
+console.log(imageURL)
   return (
     <Link href={`/products/${id}`}>
       <a className="flex px-4 pt-5 cursor-pointer justify-between">
         <div className="flex space-x-4">
-          <div className="w-20 h-20 bg-gray-400 rounded-md" />
+          {imageURL.length > 5 ? (
+            <img
+              src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${imageURL}/homeProduct`}
+              className="w-20 h-20 bg-gray-400 rounded-md"
+            />
+          ) : (
+            <div className="w-20 h-20 bg-gray-400 rounded-md text-white flex justify-center items-center text-xs">
+              <span>이미지 준비중</span>
+            </div>
+          )}
+
           <div className="pt-2 flex flex-col">
             <h3 className="text-sm font-medium text-gray-900">{title}</h3>
             <span className="font-medium mt-1 text-gray-900">${price}</span>

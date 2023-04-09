@@ -8,7 +8,7 @@ async function handler(
   res: NextApiResponse<responseType>
 ) {
   const {
-    body: { name, price, description },
+    body: { name, price, description, photoId },
     session: { user },
   } = req;
 
@@ -16,7 +16,7 @@ async function handler(
     const product = await client.product.create({
       data:{
         name,
-        image: "xx",      
+        image: photoId,      
         price : Number(price),
         description,
         user:{

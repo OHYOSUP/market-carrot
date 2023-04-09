@@ -6,6 +6,9 @@ import useSWR from "swr";
 import { Post, User } from "@prisma/client";
 import useCoords from "@libs/client/useCoords";
 import { useRouter } from "next/router";
+import { useInfiniteScroll } from "@libs/client/useInfiniteScroll";
+import useSWRInfinite from "swr/infinite";
+import { useEffect } from "react";
 
 interface PostWithUser extends Post {
   user: User;
@@ -17,17 +20,18 @@ interface PostWithUser extends Post {
 interface PostResponse {
   ok: boolean;
   posts: PostWithUser[];
+  pages: number;
 }
+
 const Community: NextPage = () => {
   const { latitude, longitude } = useCoords();
+
   const router = useRouter();
   const { data } = useSWR<PostResponse>(
     latitude && longitude
       ? `/api/posts?latitude=${latitude}&longitude=${longitude}`
       : null
   );
-
-  
 
   return (
     <Layout hasTabBar title="동네생활">
