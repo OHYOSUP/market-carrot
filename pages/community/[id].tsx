@@ -9,6 +9,7 @@ import Link from "next/link";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import { useEffect } from "react";
+import useUser from "@libs/client/useUser";
 
 interface AnswerWithUser extends Answer {
   user: User;
@@ -83,6 +84,9 @@ const CommunityPostDetail: NextPage = () => {
     }
   }, [answerData, mutate, reset]);
 
+  const { user } = useUser();
+  
+
   return (
     <Layout canGoBack>
       <div>
@@ -90,7 +94,14 @@ const CommunityPostDetail: NextPage = () => {
           동네질문
         </span>
         <div className="flex mb-3 px-4 cursor-pointer pb-3  border-b items-center space-x-3">
-          <div className="w-10 h-10 rounded-full bg-slate-300" />
+          {user?.avatar ? (
+            <img
+              src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${user.avatar}/avatar`}
+              className="w-16 h-16 bg-slate-500 rounded-full"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-slate-300" />
+          )}
           <div>
             <p className="text-sm font-medium text-gray-700">
               {data?.post.user.name}
@@ -104,7 +115,8 @@ const CommunityPostDetail: NextPage = () => {
         </div>
         <div>
           <div className="mt-2 px-4 text-gray-700">
-            <span className="text-orange-500 font-medium">Q.</span>{data?.post.question}
+            <span className="text-orange-500 font-medium">Q.</span>
+            {data?.post.question}
           </div>
           <div className="flex px-4 space-x-5 mt-3 text-gray-700 py-2.5 border-t border-b-[2px]  w-full">
             <button
@@ -152,7 +164,14 @@ const CommunityPostDetail: NextPage = () => {
         {data?.post.answer.map((answer) => (
           <div key={answer.id} className="px-4 my-5 space-y-5">
             <div className="flex items-start space-x-3">
-              <div className="w-8 h-8 bg-slate-200 rounded-full" />
+            {user?.avatar ? (
+            <img
+              src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${user.avatar}/avatar`}
+              className="w-10 h-10 bg-slate-500 rounded-full"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-slate-300" />
+          )}
               <div>
                 <span className="text-sm block font-medium text-gray-700">
                   {answer.user.name}

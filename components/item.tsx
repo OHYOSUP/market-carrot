@@ -19,8 +19,6 @@ export default function Item({
   imageURL,
   id,
 }: ItemProps) {
-  
-console.log(imageURL)
   return (
     <Link href={`/products/${id}`}>
       <a className="flex px-4 pt-5 cursor-pointer justify-between">

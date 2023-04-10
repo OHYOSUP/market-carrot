@@ -90,14 +90,14 @@ const EditProfile: NextPage = () => {
           {avatarPreview ? (
             <img src={avatarPreview} className="w-14 h-14 rounded-full" />
           ) : (
-            <div className="w-14 h-14 rounded-full" />
+            <div className="w-14 h-14 rounded-full bg-slate-400" />
           )}
 
           <label
             htmlFor="picture"
             className="cursor-pointer py-2 px-3 border hover:bg-gray-50 border-gray-300 rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 text-gray-700"
           >
-            Change
+            프로필 사진 변경
             <input
               {...register("avatar")}
               id="picture"
@@ -109,19 +109,19 @@ const EditProfile: NextPage = () => {
         </div>
         <Input
           register={register("name")}
-          label="Name address"
+          label="닉네임"
           name="name"
           type="text"
         />
         <Input
           register={register("email")}
-          label="Email address"
+          label="이메일"
           name="email"
           type="email"
         />
         <Input
           register={register("phone")}
-          label="Phone number"
+          label="휴대폰 번호"
           name="phone"
           type="number"
           kind="phone"

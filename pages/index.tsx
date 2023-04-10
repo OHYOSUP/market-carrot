@@ -2,9 +2,8 @@ import type { NextPage } from "next";
 import FloatingButton from "@components/floating-button";
 import Item from "@components/item";
 import Layout from "@components/layout";
-import useUser from "@libs/client/useUser";
 import useSWR from "swr";
-import {  Product, User } from "@prisma/client";
+import {  Product } from "@prisma/client";
 import Head from "next/head";
 
 export interface favCountState extends Product {
@@ -19,7 +18,7 @@ interface UploadProductForm {
 
 const Home: NextPage = () => {
   const { data } = useSWR<UploadProductForm>("/api/products");
-  const { user, isLoading } = useUser();
+  
   return (
     <Layout title="홈" hasTabBar>
       <Head>

@@ -7,6 +7,7 @@ import { Stream } from "@prisma/client";
 import { useInfiniteScroll } from "@libs/client/useInfiniteScroll";
 import useSWRInfinite from "swr/infinite";
 import { useEffect } from "react";
+import Image from "next/image";
 
 interface StreamsResponse {
   ok: boolean;
@@ -21,12 +22,9 @@ const getKey = (pageIndex: number, previousPageData: StreamsResponse) => {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Live: NextPage = () => {
-  // const { data } = useSWR<StreamsResponse>(`/api/streams`);
   const { data, setSize } = useSWRInfinite(getKey, fetcher);
   const streams = data ? data.map((item) => item.streams).flat() : [];
   const page = useInfiniteScroll();
-  // console.log(data)
-  // console.log(streams)
   useEffect(() => {
     setSize(page);
   }, [setSize, page]);
@@ -37,7 +35,9 @@ const Live: NextPage = () => {
         {streams?.map((stream) => (
           <Link key={stream.id} href={`/streams/${stream.id}`}>
             <a className="pt-4 block  px-4">
-              <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
+              <div className="w-full relative rounded-md shadow-sm bg-slate-300 aspect-video">
+                <Image layout="fill" src={`https://videodelivery.net/${stream.cloudflareId}/thumbnails/thumbnail.jpg?`} />
+              </div>
               <h1 className="text-2xl mt-2 font-bold text-gray-900">
                 {stream.name}
               </h1>

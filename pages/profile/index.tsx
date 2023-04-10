@@ -23,7 +23,7 @@ const Profile: NextPage = () => {
     <Layout hasTabBar title="나의 캐럿">
       <div className="px-4">
         <div className="flex items-center mt-4 space-x-3">
-          {user.avatar ? (
+          {user?.avatar ? (
             <img
               src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${user.avatar}/avatar`}
               className="w-16 h-16 bg-slate-500 rounded-full"

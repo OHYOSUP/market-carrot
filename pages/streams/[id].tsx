@@ -39,7 +39,7 @@ const Stream: NextPage = () => {
   );
   const { register, reset, handleSubmit } = useForm<MessageForm>();
   const [sendMessage, { loading, data: messageData }] = useMutation(
-    `/api/streams/${router.query.id}/message`,
+    `/api/streams/${router.query.id}/message`
   );
 
   const onValid = (form: MessageForm) => {
@@ -65,7 +65,14 @@ const Stream: NextPage = () => {
   return (
     <Layout canGoBack>
       <div className="py-10 px-4  space-y-4">
-        <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
+        {data?.streams.cloudflareId ? <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video">
+          <iframe
+            src={`https://iframe.videodelivery.net/${data?.streams.cloudflareId}`}
+            className="w-full aspect-video rounded"
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+            allowFullScreen={true}
+          ></iframe>
+        </div> : null}
         <div className="mt-5">
           <h1 className="text-3xl font-bold text-gray-900">
             {data?.streams?.name}
@@ -74,6 +81,15 @@ const Stream: NextPage = () => {
             ${data?.streams?.price}
           </span>
           <p className=" my-6 text-gray-700">{data?.streams?.description}</p>
+          <div className="flex flex-col bg-orange-300 rounded-md p-3 overflow-scroll">
+            <strong>Stream Keys</strong>
+            <span>
+              URL : <strong>{data?.streams.cloudflareUrl}</strong>
+            </span>
+            <span>
+              Keys : <strong>{data?.streams.cloudflareKey}</strong>
+            </span>
+          </div>
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>
@@ -86,10 +102,10 @@ const Stream: NextPage = () => {
               />
             ))}
           </div>
-          <div className="fixed py-2 bg-white  bottom-0 inset-x-0">
+          <div className="fixed py-2 bg-white bottom-0 inset-x-0">
             <form
               onSubmit={handleSubmit(onValid)}
-              className="flex relative max-w-md items-center  w-full mx-auto"
+              className="flex relative max-w-md items-center w-full mx-auto"
             >
               <input
                 {...register("message")}

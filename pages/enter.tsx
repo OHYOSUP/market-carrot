@@ -24,7 +24,6 @@ const Enter: NextPage = () => {
     useMutation<MutationResult>("/api/users/enter");
   const [confirmToken, { loading: tokenLoading, data: tokenData  }] =
     useMutation<MutationResult>("/api/users/confirm");
-    
   const [submitting, setSubmitting] = useState(false);
   const { register, handleSubmit, reset } = useForm<EnterForm>();
   const { register: tokenRegister, handleSubmit: tokenSubmit } =
@@ -130,7 +129,7 @@ const Enter: NextPage = () => {
                   required
                 />
               ) : null}
-              {method === "email" ? (
+              {method === "email" ? ( 
                 <Button text={loading ? "Loading" : "Get login link"} />
               ) : null}
               {method === "phone" ? (
