@@ -30,7 +30,7 @@ const Live: NextPage = () => {
   }, [setSize, page]);
 
   return (
-    <Layout hasTabBar title="라이브">
+    <Layout hasTabBar pageTitle="라이브 | 당근마켓">
       <div className=" divide-y-[1px] space-y-4">
         {streams?.map((stream) => (
           <Link key={stream.id} href={`/streams/${stream.id}`}>

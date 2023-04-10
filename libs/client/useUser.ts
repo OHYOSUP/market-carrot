@@ -17,9 +17,9 @@ export default function useUser<EditProfileResponse>() {
     if (data && !data.ok) {
       router.replace("/enter");
     }
-    if (data && data.ok && router.pathname === "/enter") {
-      router.replace("/profile")
-    }
+    // if (data && data.ok && router.pathname === "/enter") {
+    //   router.replace("/profile")
+    // }
   }, [data, router]);
 
   return { user: data?.profile, isLoading: !data && !error };

@@ -20,10 +20,7 @@ const Home: NextPage = () => {
   const { data } = useSWR<UploadProductForm>("/api/products");
   
   return (
-    <Layout title="홈" hasTabBar>
-      <Head>
-        <title>Home</title>
-      </Head>
+    <Layout pageTitle="홈 | 당근마켓" hasTabBar>
       <div className="flex flex-col space-y-5 divide-y">
         {data?.products?.map((product) => (
           <Item

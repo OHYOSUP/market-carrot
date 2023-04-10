@@ -63,7 +63,7 @@ const Stream: NextPage = () => {
   };
 
   return (
-    <Layout canGoBack>
+    <Layout pageTitle={`${data?.streams.name} | 당근 라이브`} canGoBack>
       <div className="py-10 px-4  space-y-4">
         {data?.streams.cloudflareId ? <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video">
           <iframe

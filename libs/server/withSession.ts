@@ -7,7 +7,7 @@ declare module "iron-session" {
   }
 }
 const cookieOptions = {
-  cookieName: "carrot-session",
+  cookieName: "carrotsession",
   password: process.env.IRON_SESSION_PASSWORD!,
 };
 

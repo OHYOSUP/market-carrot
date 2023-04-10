@@ -20,7 +20,7 @@ const Profile: NextPage = () => {
   const { data } = useSWR<ReviewResponse>("/api/reviews");
   
   return (
-    <Layout hasTabBar title="나의 캐럿">
+    <Layout pageTitle="나의 당근 | 당근마켓" hasTabBar title="나의 캐럿">
       <div className="px-4">
         <div className="flex items-center mt-4 space-x-3">
           {user?.avatar ? (

@@ -38,7 +38,7 @@ const ItemDetail: NextPage = () => {
   };
 
   return (
-    <Layout canGoBack>
+    <Layout pageTitle={`${data?.product.name} | 당근마켓`} canGoBack>
       <div className="px-4  py-4">
         <div className="mb-8">
           <div className="relative pb-96">
