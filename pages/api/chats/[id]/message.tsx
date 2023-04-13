@@ -3,6 +3,7 @@ import withHandler, { responseType } from "@libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 import { withSession } from "@libs/server/withSession";
 
+
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<responseType>
@@ -10,37 +11,27 @@ async function handler(
   const {
     query: { id },
     session: { user },
-    body: { reply },
+    body: { message },
   } = req;
-
-  const post = await client.post.findUnique({
-    where: {
-      id: Number(id),
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  const newAnswer = await client.answer.create({
-    data: {
-      user: {
-        connect: {
-          id: user?.id,
-        },
+  const chatmessage = await client.chat.create({
+    data:{
+      message,
+      user:{
+        connect:{
+          id: user?.id
+        }
       },
-      post: {
-        connect: {
-          id: Number(id),
-        },
-      },
-      answerText: reply,
-    },
-  });
+      chatRoom:{
+        connect:{
+          id: Number(id)
+        }
+      }
+    }
+  })
 
   res.json({
     ok: true,
-    newAnswer,
+    chatmessage
   });
 }
 

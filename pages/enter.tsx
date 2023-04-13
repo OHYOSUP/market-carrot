@@ -16,6 +16,9 @@ interface TokenForm {
 }
 interface MutationResult {
   ok: boolean;
+  token:{
+    payload: string;
+  };
 }
 
 const Enter: NextPage = () => {
@@ -55,6 +58,7 @@ const Enter: NextPage = () => {
     }
   },[tokenData, router])
 
+  console.log(data)
   return (
     <div className="mt-16 px-4">            
       <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
@@ -67,11 +71,12 @@ const Enter: NextPage = () => {
             <Input
               register={tokenRegister("token", { required: true })}
               name="email"
-              label="Enter your Token"
+              label="1회용 비밀번호를 입력하세요"
               type="number"
             />
 
-            <Button text={submitting ? "Loading.." : "Confirm Token"} />
+            <Button text={submitting ? "로그인 중입니다" : "로그인"} />
+            {data.token.payload ? <span className="text-orange-400 font-semibold text-center">비밀번호 : {data.token.payload}</span> : !tokenData?.ok ? <span className="text-orange-400 font-semibold text-center">비밀번호를 확인해주세요</span> : "로그인 중입니다"}
           </form>
         ) : (
           <>

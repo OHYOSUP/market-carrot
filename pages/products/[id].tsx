@@ -8,6 +8,7 @@ import { Product, User } from "@prisma/client";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import Image from "next/image";
+import { useEffect } from "react";
 
 interface productWithUser extends Product {
   user: User;
@@ -36,6 +37,25 @@ const ItemDetail: NextPage = () => {
       mutate({ ...data, isLiked: !data.isLiked }, false);
     }
   };
+
+  const [
+    createChatingRoom,
+    { data: chatingRoomData, loading: chatingRoomLoading },
+  ] = useMutation(
+    `/api/chats?sellerId=${data?.product.userId}&productId=${data?.product.id}`
+  );
+
+  const onClickChatingRoom = () => {
+    if (chatingRoomLoading) return;
+    createChatingRoom({});
+  };
+
+  useEffect(() => {
+    if (chatingRoomLoading) return;
+    if (chatingRoomData && chatingRoomData.ok) {
+      router.push(`/chats/${chatingRoomData.chatingRoomId}`);
+    }
+  }, [router, chatingRoomData, chatingRoomLoading]);
 
   return (
     <Layout pageTitle={`${data?.product.name} | 당근마켓`} canGoBack>
@@ -78,7 +98,7 @@ const ItemDetail: NextPage = () => {
             <span className="text-2xl block mt-3 text-gray-900">$140</span>
             <p className=" my-6 text-gray-700">{data?.product?.description}</p>
             <div className="flex items-center justify-between space-x-2">
-              <Button large text="Talk to seller" />
+              <Button large text="대화하기" onClick={onClickChatingRoom} />
               <button
                 onClick={onFavClick}
                 className={cls(

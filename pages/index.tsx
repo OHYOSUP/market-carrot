@@ -2,34 +2,35 @@ import type { NextPage } from "next";
 import FloatingButton from "@components/floating-button";
 import Item from "@components/item";
 import Layout from "@components/layout";
-import useSWR from "swr";
-import {  Product } from "@prisma/client";
+import useSWR, { SWRConfig } from "swr";
+import { Product } from "@prisma/client";
 import Head from "next/head";
+import client from "@libs/server/client";
 
 export interface favCountState extends Product {
   _count: {
     records: number;
-  }
+  };
 }
 interface UploadProductForm {
   ok: boolean;
-  products: favCountState[]
+  products: favCountState[];
 }
 
 const Home: NextPage = () => {
   const { data } = useSWR<UploadProductForm>("/api/products");
   
   return (
-    <Layout pageTitle="홈 | 당근마켓" hasTabBar>
+    <Layout pageTitle="홈 | 당근마켓" hasTabBar>       
       <div className="flex flex-col space-y-5 divide-y">
-        {data?.products?.map((product) => (
+        {data?.products.map((product) => (
           <Item
             id={product.id}
             key={product.id}
-            title={product.name}  
+            title={product.name}
             price={product.price}
             comments={1}
-            hearts={product._count.records}
+            hearts={product?._count?.records}
             imageURL={product.image}
           />
         ))}
@@ -55,4 +56,26 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+ const Page: NextPage<{products: favCountState[]}> = ({products})=>{
+  return(
+    <SWRConfig value={{
+      fallback:{
+        "/api/products": {
+          ok: true,
+          products,
+        }
+      }
+    }}>
+      <Home />
+    </SWRConfig>
+  )
+ }
+export async function getServerSideProps() {
+  const products = await client?.product.findMany({});
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products)),
+    },
+  };
+}
+export default Page;

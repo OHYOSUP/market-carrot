@@ -32,7 +32,7 @@ const Upload: NextPage = () => {
       setPhotoPreview(URL.createObjectURL(file));
     }
   }, [photo]);
-  const [uploadProducts, { data }] =
+  const [uploadProducts, { data, loading }] =
     useMutation<UploadProductMutation>("/api/products");
 
   const onValid = async ({ name, price, description }: UploadProductForm) => {
@@ -62,7 +62,7 @@ const Upload: NextPage = () => {
   }, [data, router]);
 
   return (
-    <Layout canGoBack title="Upload Product">
+    <Layout canGoBack pageTitle="Upload Product">
       <form className="p-4 space-y-4" onSubmit={handleSubmit(onValid)}>
         <div>
           {photoPreview ? (
@@ -117,7 +117,7 @@ const Upload: NextPage = () => {
           name="description"
           label="Description"
         />
-        <Button text="Upload item" />
+        <Button text={loading ? "업로드 중입니다" : "업로드"} />
       </form>
     </Layout>
   );
