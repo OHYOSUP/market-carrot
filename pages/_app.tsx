@@ -9,14 +9,14 @@ function CustomUser(){
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  
+  const AnyComponent = Component as any;
   return (
     <SWRConfig
       value={{ fetcher: (url: string) => fetch(url).then((res) => res.json()) }}
     >
       <CustomUser />
       <div className="w-full max-w-xl mx-auto">
-        <Component {...pageProps} />
+        <AnyComponent {...pageProps} />
       </div>
     </SWRConfig>
   );
