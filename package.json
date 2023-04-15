@@ -19,9 +19,12 @@
     "react": "^18.0.0-rc.0",
     "react-dom": "^18.0.0-rc.0",
     "react-hook-form": "^7.43.8",
+    "remark-html": "^15.0.2",
+    "remark-parse": "^10.0.1",
     "swr": "^2.1.1",
     "tailwind-scrollbar-hide": "^1.1.7",
-    "twilio": "^4.9.0"
+    "twilio": "^4.9.0",
+    "unified": "^10.1.2"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.4.0",

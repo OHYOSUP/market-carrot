@@ -62,7 +62,7 @@ const Upload: NextPage = () => {
   }, [data, router]);
 
   return (
-    <Layout canGoBack pageTitle="Upload Product">
+    <Layout canGoBack pageTitle="상품 올리기" title="상품 올리기">
       <form className="p-4 space-y-4" onSubmit={handleSubmit(onValid)}>
         <div>
           {photoPreview ? (

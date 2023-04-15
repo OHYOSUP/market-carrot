@@ -31,6 +31,7 @@ const Enter: NextPage = () => {
   const { register, handleSubmit, reset } = useForm<EnterForm>();
   const { register: tokenRegister, handleSubmit: tokenSubmit } =
     useForm<TokenForm>();
+    
   const onEmailClick = () => {
     reset();
     setMethod("email");
@@ -44,8 +45,6 @@ const Enter: NextPage = () => {
     if (loading) return;
     enter(data);
   };
-
-
   const onTokenValid = (validForm: TokenForm) => {
     if (tokenLoading) return;
     confirmToken(validForm);
@@ -58,10 +57,10 @@ const Enter: NextPage = () => {
     }
   },[tokenData, router])
 
-  console.log(data)
+  
   return (
     <div className="mt-16 px-4">            
-      <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
+      <h3 className="text-3xl font-bold text-center">로그인</h3>
       <div className="mt-12">
         {data?.ok ? (
           <form
@@ -82,7 +81,7 @@ const Enter: NextPage = () => {
           <>
             <div className="flex flex-col items-center">
               <h5 className="text-sm text-gray-500 font-medium">
-                Enter using:
+                로그인 방법:
               </h5>
               <div className="grid  border-b  w-full mt-8 grid-cols-2 ">
                 <button
@@ -135,10 +134,10 @@ const Enter: NextPage = () => {
                 />
               ) : null}
               {method === "email" ? ( 
-                <Button text={loading ? "Loading" : "Get login link"} />
+                <Button text={loading ? "로딩중입니다" : "로그인 비밀번호 받기"} />
               ) : null}
               {method === "phone" ? (
-                <Button text={loading ? "Loading" : "Get one-time password"} />
+                <Button text={loading ? "로딩중입니다." : "로그인 비밀번호 받기"} />
               ) : null}
             </form>
           </>
@@ -149,7 +148,7 @@ const Enter: NextPage = () => {
             <div className="absolute w-full border-t border-gray-300" />
             <div className="relative -top-3 text-center ">
               <span className="bg-white px-2 text-sm text-gray-500">
-                Or enter with
+                다른 로그인 방법
               </span>
             </div>
           </div>

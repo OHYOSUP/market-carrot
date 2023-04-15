@@ -20,7 +20,7 @@ export default function useMutation<T = any>(
     data: undefined,
     error: undefined,
   });
-  // const { loading, data, error } = state;
+  
   function mutation(data: any) {
     setState((prev) => ({ ...prev, loading: true }));
     fetch(url, {
