@@ -8,7 +8,7 @@ async function handler(
   res: NextApiResponse<responseType>
 ) {
   if (req.method === "GET") {
-    const profile = await client.user.findUnique({
+    const profile = await client?.user.findUnique({
       where: {
         id: req.session.user?.id,
       },
@@ -26,7 +26,7 @@ async function handler(
       body: { email, phone, name, avatarId },
     } = req;
     
-    const currentUser = await client.user.findUnique({
+    const currentUser = await client?.user.findUnique({
       where: {
         id: user?.id,
       },
@@ -34,7 +34,7 @@ async function handler(
 
     if (email && email !== currentUser?.email ) {
       const alreadyExistt = Boolean(
-        await client.user.findUnique({
+        await client?.user.findUnique({
           where: {
             email,
           },
@@ -49,7 +49,7 @@ async function handler(
           error: "이미 존재하는 이메일입니다.",
         });
       }
-      await client.user.update({
+      await client?.user.update({
         where: {
           id: user?.id,
         },
@@ -63,7 +63,7 @@ async function handler(
     }
     if (phone && phone !== currentUser?.phone ) {
       const alreadyExistt = Boolean(
-        await client.user.findUnique({
+        await client?.user.findUnique({
           where: {
             phone,
           },
@@ -78,7 +78,7 @@ async function handler(
           error: "이미 존재하는 번호입니다.",
         });
       }
-      await client.user.update({
+      await client?.user.update({
         where: {
           id: user?.id,
         },
@@ -91,7 +91,7 @@ async function handler(
       });
     }
     if (name) {
-      await client.user.update({
+      await client?.user.update({
         where: {
           id: user?.id,
         },
@@ -100,7 +100,7 @@ async function handler(
     } 
 
     if(avatarId){
-      await client.user.update({
+      await client?.user.update({
         where:{
           id: user?.id
         },

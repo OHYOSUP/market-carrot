@@ -13,7 +13,7 @@ async function handler(
     session: { user },
   } = req;
 
-  const message = await client.message.create({
+  const message = await client?.message.create({
     data: {
       message: body.message,
       stream: {

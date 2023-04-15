@@ -13,7 +13,7 @@ async function handler(
     body: { reply },
   } = req;
 
-  const post = await client.post.findUnique({
+  const post = await client?.post.findUnique({
     where: {
       id: Number(id),
     },
@@ -22,7 +22,7 @@ async function handler(
     },
   });
 
-  const newAnswer = await client.answer.create({
+  const newAnswer = await client?.answer.create({
     data: {
       user: {
         connect: {
@@ -38,6 +38,8 @@ async function handler(
     },
   });
 
+  console.log(newAnswer)
+  console.log(post)
   res.json({
     ok: true,
     newAnswer,

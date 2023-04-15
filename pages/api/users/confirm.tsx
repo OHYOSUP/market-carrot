@@ -10,7 +10,7 @@ async function handler(
 ) {
   const { token } = req.body;
 
-  const foundToken = await client.token.findUnique({
+  const foundToken = await client?.token.findUnique({
     where: {
       payload: token,
     },
@@ -21,7 +21,7 @@ async function handler(
   };
   await req.session.save();
   // 토큰 사용하면 지우기 => deleteMany
-  await client.token.deleteMany({
+  await client?.token.deleteMany({
     where: {
       userId: foundToken.userId,
     },

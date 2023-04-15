@@ -56,6 +56,7 @@ const Upload: NextPage = () => {
 
   const router = useRouter();
   useEffect(() => {
+    if(loading) return
     if (data?.ok) {
       router.push(`/products/${data.product.id}`);
     }

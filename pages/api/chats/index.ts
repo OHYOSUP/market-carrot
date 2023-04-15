@@ -14,7 +14,7 @@ async function handler(
       session: { user },
     } = req;
 
-    const existingChatingRoom = await client.chatRoom.findFirst({
+    const existingChatingRoom = await client?.chatRoom.findFirst({
       where: {
         productId: Number(productId),
         buyerId: user?.id,
@@ -28,7 +28,7 @@ async function handler(
         chatingRoomId: existingChatingRoom.id,
       });
     } else {
-      const createChatingRoom = await client.chatRoom.create({
+      const createChatingRoom = await client?.chatRoom.create({
         data: {
           product: {
             connect: {
@@ -59,7 +59,7 @@ async function handler(
       session: { user },
     } = req;
 
-    const chatRoom = await client.chatRoom.findMany({
+    const chatRoom = await client?.chatRoom.findMany({
       where: {
         OR: [{ sellerId: user?.id }, { buyerId: user?.id }],
       },

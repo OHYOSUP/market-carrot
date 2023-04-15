@@ -11,7 +11,7 @@ async function handler(
     query: { id },
     session: { user },
   } = req;
-  const product = await client.product.findUnique({
+  const product = await client?.product.findUnique({
     where: {
       id: Number(id),
     },
@@ -32,7 +32,7 @@ async function handler(
     },
   }));
 
-  const relatedItems = await client.product.findMany({
+  const relatedItems = await client?.product.findMany({
     where: {
       OR: terms,
       AND: {
@@ -44,7 +44,7 @@ async function handler(
   });
 
   const isLiked = Boolean(
-    await client.record.findFirst({
+    await client?.record.findFirst({
       where: {
         productId: product?.id,
         userId: user?.id,

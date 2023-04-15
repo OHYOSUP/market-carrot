@@ -32,7 +32,6 @@ const ChatDetail: NextPage = () => {
     `/api/chats/${router.query.id}/message`
   );
 
-
   const { data: chatRoomData, mutate } = useSWR<ChatRoomResponse>(
     router.query.id ? `/api/chats/${router.query.id}` : null
   );
@@ -63,9 +62,9 @@ const ChatDetail: NextPage = () => {
     }),false)
     setValue("message", "");
   };
-console.log(chatRoomData?.chatRoom.buyerId)
+  console.log(chatRoomData)
   const whoIs =
-    chatRoomData?.chatRoom.buyerId !== user?.id
+  chatRoomData?.chatRoom.buyerId !== user?.id
       ? {
           name: chatRoomData?.chatRoom.buyer.name,
           id: chatRoomData?.chatRoom.buyer.id,

@@ -14,7 +14,7 @@ async function handler(
   } = req;
 
   if (req.method === "POST") {
-    const post = await client.post.create({
+    const post = await client?.post.create({
       data: {
         question,
         latitude,
@@ -39,7 +39,7 @@ async function handler(
     const parsedLatitude = parseFloat(latitude.toString());
     const parsedLongitude = parseFloat(longitude.toString());
     // const postsCount = await client.post.count();
-    const posts = await client.post.findMany({
+    const posts = await client?.post.findMany({
       // take: 10,
       // skip: (+page - 1) * 10,
       include: {

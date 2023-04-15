@@ -2,6 +2,7 @@ import client from "@libs/server/client";
 import withHandler, { responseType } from "@libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 import { withSession } from "@libs/server/withSession";
+import prisma from "@libs/server/client";
 
 
 async function handler(
@@ -12,7 +13,7 @@ async function handler(
     query: { id },
   } = req;
 
-  const chatRoom = await client.chatRoom.findUnique({
+  const chatRoom = await client?.chatRoom.findUnique({
     where: {
       id: Number(id)
     },
@@ -46,6 +47,7 @@ async function handler(
       }
     }
   })
+
 
 
   res.json({

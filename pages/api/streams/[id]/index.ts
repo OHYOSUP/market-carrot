@@ -12,7 +12,7 @@ async function handler(
     session: { user },
   } = req;
 
-  const streams = await client.stream.findUnique({
+  const streams = await client?.stream.findUnique({
     where: {
       id: Number(id),
     },

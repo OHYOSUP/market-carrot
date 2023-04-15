@@ -13,7 +13,7 @@ async function handler(
   } = req;
 
   if(req.method === "POST"){
-    const product = await client.product.create({
+    const product = await client?.product.create({
       data:{
         name,
         image: photoId,      
@@ -33,7 +33,7 @@ async function handler(
     });
   }
   if(req.method === "GET"){
-    const products = await client.product.findMany({      
+    const products = await client?.product.findMany({      
       include:{
         _count:{
           select:{

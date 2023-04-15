@@ -86,10 +86,13 @@ const CommunityPostDetail: NextPage = () => {
   }, [answerData, mutate, reset]);
 
   const { user } = useUser();
-  
 
+  console.log(data);
   return (
-    <Layout pageTitle={answerData?.answer.answerText+""} title={`${answerData?.answer.answerText} | 동네생활`} canGoBack>
+    <Layout
+      title={`${data?.post.question.slice(0, 5)}... | 동네생활`}
+      canGoBack
+    >
       <div>
         <span className="inline-flex my-3 ml-4 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
           동네질문
@@ -165,14 +168,14 @@ const CommunityPostDetail: NextPage = () => {
         {data?.post.answer.map((answer) => (
           <div key={answer.id} className="px-4 my-5 space-y-5">
             <div className="flex items-start space-x-3">
-            {user?.avatar ? (
-            <img
-              src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${user.avatar}/avatar`}
-              className="w-10 h-10 bg-slate-500 rounded-full"
-            />
-          ) : (
-            <div className="w-10 h-10 rounded-full bg-slate-300" />
-          )}
+              {user?.avatar ? (
+                <img
+                  src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${user.avatar}/avatar`}
+                  className="w-10 h-10 bg-slate-500 rounded-full"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-slate-300" />
+              )}
               <div>
                 <span className="text-sm block font-medium text-gray-700">
                   {answer.user.name}
@@ -189,11 +192,11 @@ const CommunityPostDetail: NextPage = () => {
           <TextArea
             register={register("reply", { required: true, minLength: 5 })}
             name="description"
-            placeholder="Answer this question!"
+            placeholder="우리 동네에 대해 물어보세요!"
             required
           />
           <button className="mt-2 w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none ">
-            {answerLoading ? "Loading" : "Reply"}
+            {answerLoading ? "업로드 중입니다" : "답변하기"}
           </button>
         </form>
       </div>

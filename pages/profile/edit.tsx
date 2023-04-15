@@ -84,7 +84,7 @@ const EditProfile: NextPage = () => {
   }, [avatar]);
 
   return (
-    <Layout canGoBack pageTitle="프로필 수정 | 당근마켓">
+    <Layout canGoBack title="프로필 수정" pageTitle="프로필 수정 | 당근마켓">
       <form onSubmit={handleSubmit(onValid)} className="py-10 px-4 space-y-4">
         <div className="flex items-center space-x-3">
           {avatarPreview ? (
@@ -131,7 +131,7 @@ const EditProfile: NextPage = () => {
             {errors.editError.message}
           </span>
         ) : null}
-        <Button text={loading ? "Loading" : "프로필 업데이트"} />
+        <Button text={loading ? "업데이트 중입니다" : "프로필 업데이트"} />
       </form>
     </Layout>
   );

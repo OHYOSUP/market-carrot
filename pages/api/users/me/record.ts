@@ -14,7 +14,7 @@ async function handler(
   } = req;
   const kind = kindGuide as Kind;
 
-  const records = await client.record.findMany({
+  const records = await client?.record.findMany({
     where: {
       kind: kind,
       userId: user?.id,

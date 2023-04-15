@@ -12,7 +12,7 @@ async function handler(
     session: { user },
   } = req;
 
-  const post = await client.post.findUnique({
+  const post = await client?.post.findUnique({
     where: {
       id: Number(id),
     },
@@ -46,7 +46,7 @@ async function handler(
     },
   });
 
-  const isWondering = Boolean(await client.wondering.findFirst({
+  const isWondering = Boolean(await client?.wondering.findFirst({
     where: {
       userId: user?.id,
       postId: Number(id)

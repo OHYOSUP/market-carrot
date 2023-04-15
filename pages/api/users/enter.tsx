@@ -33,7 +33,7 @@ async function handler(
     // })
     // console.log(email)
   }
-  const token = await client.token.create({
+  const token = await client?.token.create({
     data: {
       payload,
       user: {

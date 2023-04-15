@@ -8,7 +8,7 @@ interface LayoutProps {
   title?: string;
   canGoBack?: boolean;
   hasTabBar?: boolean;
-  pageTitle: string;
+  pageTitle?: string;
   children: React.ReactNode;
 }
 

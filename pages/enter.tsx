@@ -6,7 +6,7 @@ import { cls } from "@libs/client/utils";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import { useRouter } from "next/router";
-import Error from 'next/error'
+import Error from "next/error";
 interface EnterForm {
   email?: string;
   phone?: string;
@@ -16,22 +16,22 @@ interface TokenForm {
 }
 interface MutationResult {
   ok: boolean;
-  token:{
+  token: {
     payload: string;
   };
 }
 
 const Enter: NextPage = () => {
   const [method, setMethod] = useState<"email" | "phone">("email");
-  const [enter, { loading, data, error }] =
+  const [enter, { loading, data }] =
     useMutation<MutationResult>("/api/users/enter");
-  const [confirmToken, { loading: tokenLoading, data: tokenData  }] =
+  const [confirmToken, { loading: tokenLoading, data: tokenData }] =
     useMutation<MutationResult>("/api/users/confirm");
   const [submitting, setSubmitting] = useState(false);
   const { register, handleSubmit, reset } = useForm<EnterForm>();
   const { register: tokenRegister, handleSubmit: tokenSubmit } =
     useForm<TokenForm>();
-    
+
   const onEmailClick = () => {
     reset();
     setMethod("email");
@@ -49,17 +49,17 @@ const Enter: NextPage = () => {
     if (tokenLoading) return;
     confirmToken(validForm);
   };
-  const router = useRouter()
+  const router = useRouter();
 
-  useEffect(()=>{
-    if(tokenData?.ok){
-      router.push('/')
+  useEffect(() => {
+    if (tokenData?.ok) {
+      router.push("/");
     }
-  },[tokenData, router])
-
+  }, [tokenData, router]);
   
+
   return (
-    <div className="mt-16 px-4">            
+    <div className="mt-16 px-4">
       <h3 className="text-3xl font-bold text-center">로그인</h3>
       <div className="mt-12">
         {data?.ok ? (
@@ -74,8 +74,13 @@ const Enter: NextPage = () => {
               type="number"
             />
 
-            <Button text={submitting ? "로그인 중입니다" : "로그인"} />
-            {data.token.payload ? <span className="text-orange-400 font-semibold text-center">비밀번호 : {data.token.payload}</span> : !tokenData?.ok ? <span className="text-orange-400 font-semibold text-center">비밀번호를 확인해주세요</span> : "로그인 중입니다"}
+            <Button text={tokenLoading ? "로그인 중입니다" : "로그인"} />
+            {data.token.payload ? (
+              <span className="text-orange-400 font-semibold text-center">
+                비밀번호 : {data.token.payload}
+              </span>
+            ) : null}
+              
           </form>
         ) : (
           <>
@@ -133,11 +138,15 @@ const Enter: NextPage = () => {
                   required
                 />
               ) : null}
-              {method === "email" ? ( 
-                <Button text={loading ? "로딩중입니다" : "로그인 비밀번호 받기"} />
+              {method === "email" ? (
+                <Button
+                  text={loading ? "로딩중입니다" : "로그인 비밀번호 받기"}
+                />
               ) : null}
               {method === "phone" ? (
-                <Button text={loading ? "로딩중입니다." : "로그인 비밀번호 받기"} />
+                <Button
+                  text={loading ? "로딩중입니다." : "로그인 비밀번호 받기"}
+                />
               ) : null}
             </form>
           </>

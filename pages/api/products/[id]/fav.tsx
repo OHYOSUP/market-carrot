@@ -12,7 +12,7 @@ async function handler(
     session: { user },
   } = req;
 
-  const alreadyExists = await client.record.findFirst({
+  const alreadyExists = await client?.record.findFirst({
     where: {
       kind: "Fav",
       userId: user?.id,
@@ -21,13 +21,13 @@ async function handler(
   });
 
   if (alreadyExists) {
-    await client.record.delete({
+    await client?.record.delete({
       where: {
         id: alreadyExists.id,
       },
     });
   } else {
-    await client.record.create({
+    await client?.record.create({
       data: {
         kind: "Fav",
         user: {

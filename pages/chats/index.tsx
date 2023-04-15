@@ -17,7 +17,7 @@ interface ChatingRoomResponse {
 const Chats: NextPage = () => {
   const { data } = useSWR<ChatingRoomResponse>(`/api/chats`);
 
-console.log(data)
+
 
   return (
     <Layout pageTitle="당근채팅 | 당근마켓" hasTabBar title="채팅">

@@ -53,12 +53,16 @@ const ItemDetail: NextPage = () => {
   useEffect(() => {
     if (chatingRoomLoading) return;
     if (chatingRoomData && chatingRoomData.ok) {
-      router.push(`/chats/${chatingRoomData.chatingRoomId}`);
+      router.push(router.query.id ? `/chats/${chatingRoomData.chatingRoomId}` : "");
     }
   }, [router, chatingRoomData, chatingRoomLoading]);
 
   return (
-    <Layout title={`${data?.product.name}`} pageTitle={`${data?.product.name} | 당근마켓`} canGoBack>
+    <Layout
+      title={`${data?.product.name}`}
+      pageTitle={`${data?.product.name} | 당근마켓`}
+      canGoBack
+    >
       <div className="px-4  py-4">
         <div className="mb-8">
           <div className="relative pb-96">
@@ -95,7 +99,9 @@ const ItemDetail: NextPage = () => {
             <h1 className="text-3xl font-bold text-gray-900">
               {data?.product?.name}
             </h1>
-            <span className="text-2xl block mt-3 text-gray-900">$140</span>
+            <span className="text-2xl block mt-3 text-gray-900">
+              ₩{data?.product.price}
+            </span>
             <p className=" my-6 text-gray-700">{data?.product?.description}</p>
             <div className="flex items-center justify-between space-x-2">
               <Button large text="대화하기" onClick={onClickChatingRoom} />
@@ -141,11 +147,18 @@ const ItemDetail: NextPage = () => {
           <div className=" mt-6 grid grid-cols-2 gap-4">
             {data?.relatedItems.map((product) => (
               <div key={product.id}>
-                <div className="h-56 w-full mb-4 bg-slate-300" />
-                <h3 className="text-gray-700 -mb-1">{product.name}</h3>
-                <span className="text-sm font-medium text-gray-900">
-                  ${product.price}
-                </span>
+                <Link href={`/products/${product.id}`}> 
+                  <a>
+                    <img
+                      src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${product.image}/product`}
+                      className="h-56 w-full mb-4 bg-slate-300"
+                    />
+                    <h3 className="text-gray-700 -mb-1">{product.name}</h3>
+                    <span className="text-sm font-medium text-gray-900">
+                      ${product.price}
+                    </span>
+                  </a>
+                </Link>
               </div>
             ))}
           </div>
