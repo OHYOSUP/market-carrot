@@ -5,10 +5,11 @@ import Layout from "@components/layout";
 import useSWR from "swr";
 import { Post, User } from "@prisma/client";
 import useCoords from "@libs/client/useCoords";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { useInfiniteScroll } from "@libs/client/useInfiniteScroll";
 import useSWRInfinite from "swr/infinite";
 import { useEffect } from "react";
+import client from "@libs/server/client";
 
 interface PostWithUser extends Post {
   user: User;
@@ -18,25 +19,24 @@ interface PostWithUser extends Post {
   };
 }
 interface PostResponse {
-  ok: boolean;
   posts: PostWithUser[];
-  pages: number;
+  // pages: number;
 }
 
-const Community: NextPage = () => {
-  const { latitude, longitude } = useCoords();
+const Community: NextPage<PostResponse> = ({ posts }: PostResponse) => {
+  // const { latitude, longitude } = useCoords();
 
-  const router = useRouter();
-  const { data } = useSWR<PostResponse>(
-    latitude && longitude
-      ? `/api/posts?latitude=${latitude}&longitude=${longitude}`
-      : null
-  );
+  // const router = useRouter();
+  // const { data } = useSWR<PostResponse>(
+  //   latitude && longitude
+  //     ? `/api/posts?latitude=${latitude}&longitude=${longitude}`
+  //     : null
+  // );
 
   return (
     <Layout pageTitle="동네생활 | 당근마켓" hasTabBar title="동네생활">
       <div className="space-y-4 divide-y-[2px]">
-        {data?.posts?.map((post) => (
+        {posts?.map((post) => (
           <Link key={post.id} href={`/community/${post.id}`}>
             <a className="flex cursor-pointer flex-col pt-4 items-start">
               <span className="flex ml-4 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
@@ -109,5 +109,19 @@ const Community: NextPage = () => {
     </Layout>
   );
 };
+
+export async function getStaticProps() {
+  console.log("커뮤니티 빌드 statically");
+  const posts = await client?.post.findMany({
+    include: {
+      user: true,
+    },
+  });
+  return {
+    props: {
+      posts: JSON.parse(JSON.stringify(posts)),
+    },
+  };
+}
 
 export default Community;

@@ -26,6 +26,9 @@ async function handler(
         },
       },
     });
+
+    await res.unstable_revalidate('/community')
+
     res.json({
       ok: true,
       post,
@@ -36,8 +39,8 @@ async function handler(
     const {
       query: { latitude, longitude },
     } = req;
-    const parsedLatitude = parseFloat(latitude.toString());
-    const parsedLongitude = parseFloat(longitude.toString());
+    const parsedLatitude = parseFloat(latitude!.toString());
+    const parsedLongitude = parseFloat(longitude!.toString());
     // const postsCount = await client.post.count();
     const posts = await client?.post.findMany({
       // take: 10,
