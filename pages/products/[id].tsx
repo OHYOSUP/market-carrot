@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Button from "@components/button";
 import Layout from "@components/layout";
 import useSWR from "swr";
@@ -9,6 +9,7 @@ import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import Image from "next/image";
 import { useEffect } from "react";
+import client from "@libs/server/client";
 
 interface productWithUser extends Product {
   user: User;
@@ -20,7 +21,11 @@ interface ItemDetailResponse {
   isLiked: boolean;
 }
 
-const ItemDetail: NextPage = () => {
+const ItemDetail: NextPage<ItemDetailResponse> = ({
+  product,
+  relatedItems,
+  isLiked,
+}) => {
   const router = useRouter();
 
   const { data, mutate } = useSWR<ItemDetailResponse>(
@@ -53,33 +58,35 @@ const ItemDetail: NextPage = () => {
   useEffect(() => {
     if (chatingRoomLoading) return;
     if (chatingRoomData && chatingRoomData.ok) {
-      router.push(router.query.id ? `/chats/${chatingRoomData.chatingRoomId}` : "");
+      router.push(
+        router.query.id ? `/chats/${chatingRoomData.chatingRoomId}` : ""
+      );
     }
   }, [router, chatingRoomData, chatingRoomLoading]);
 
   return (
     <Layout
-      title={`${data?.product.name}`}
-      pageTitle={`${data?.product.name} | 당근마켓`}
+      title={`${product.name}`}
+      pageTitle={`${product.name} | 당근마켓`}
       canGoBack
     >
       <div className="px-4  py-4">
         <div className="mb-8">
-          <div className="relative pb-96">
-            <Image
-            alt="product image"
-              layout="fill"
-              src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${data?.product.image}/product`}
+          <div className="relative pb-9">
+            <img
+              alt="product image"
+              // layout="fill"
+              src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${product?.image}/product`}
               className="bg-slate-300 object-cover"
             />
           </div>
           <div className="flex cursor-pointer py-3 border-t border-b items-center space-x-3">
-            {data?.product?.user?.avatar ? (
-              <Image
-              alt="avatar of seller"
+            {product?.user?.avatar ? (
+              <img
+                alt="avatar of seller"
                 width={48}
                 height={48}
-                src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${data?.product.user.avatar}/avatar`}
+                src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${product?.user.avatar}/avatar`}
                 className="w-12 h-12 rounded-full bg-slate-300"
               />
             ) : (
@@ -88,9 +95,9 @@ const ItemDetail: NextPage = () => {
 
             <div>
               <p className="text-sm font-medium text-gray-700">
-                {data?.product?.user?.name}
+                {product?.user?.name}
               </p>
-              <Link href={`/users.profiles/${data?.product?.user?.id}`}>
+              <Link href={`/users.profiles/${product?.user?.id}`}>
                 <a className="text-xs font-medium text-gray-500">
                   View profile &rarr;
                 </a>
@@ -99,22 +106,22 @@ const ItemDetail: NextPage = () => {
           </div>
           <div className="mt-5">
             <h1 className="text-3xl font-bold text-gray-900">
-              {data?.product?.name}
+              {product?.name}
             </h1>
             <span className="text-2xl block mt-3 text-gray-900">
-              ₩{data?.product.price}
+              ₩{product.price}
             </span>
-            <p className=" my-6 text-gray-700">{data?.product?.description}</p>
+            <p className=" my-6 text-gray-700">{product?.description}</p>
             <div className="flex items-center justify-between space-x-2">
               <Button large text="대화하기" onClick={onClickChatingRoom} />
               <button
                 onClick={onFavClick}
                 className={cls(
                   "p-3 rounded-md flex items-center justify-center hover:bg-gray-100",
-                  data?.isLiked ? "text-red-400  hover:text-red-500" : ""
+                  isLiked ? "text-red-400  hover:text-red-500" : ""
                 )}
               >
-                {data?.isLiked ? (
+                {isLiked ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -147,11 +154,14 @@ const ItemDetail: NextPage = () => {
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Similar items</h2>
           <div className=" mt-6 grid grid-cols-2 gap-4">
-            {data?.relatedItems.map((product) => (
+            {relatedItems?.map((product) => (
               <div key={product.id}>
-                <Link href={`/products/${product.id}`}> 
+                <Link href={`/products/${product.id}`}>
                   <a>
                     <img
+                      width={200}
+                      height={200}
+                      alt="related product image"
                       src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${product.image}/product`}
                       className="h-56 w-full mb-4 bg-slate-300"
                     />
@@ -168,6 +178,65 @@ const ItemDetail: NextPage = () => {
       </div>
     </Layout>
   );
+};
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [],
+    // 유저가 getStatocProps나 getStaticPaths를 방문할 때 만약 그페이지에 해당하는 html이 없다면 유저가 잠시동안 기다리게 만들고
+    // fallback blocking이 그동안 백그라운드에서 페이지를 만들어서 유저에게 넘겨준다
+    // falback: "true" => 유저에게 보여주고 싶은 무언가를 보여주고 html이 준비되면 그 페이지로 바꿔준다.
+    fallback: "blocking",
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  if (!ctx?.params?.id) {
+    return {
+      props: {},
+    };
+  }
+  const product = await client?.product.findUnique({
+    where: {
+      id: Number(ctx?.params?.id),
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+        },
+      },
+    },
+  });
+
+  const terms = product?.name.split(" ").map((item) => ({
+    name: {
+      contains: item,
+    },
+  }));
+
+  const relatedItems = await client?.product.findMany({
+    where: {
+      OR: terms,
+      AND: {
+        id: {
+          not: product?.id,
+        },
+      },
+    },
+  });
+
+  const isLiked = false;
+
+  return {
+    props: {
+      product: JSON.parse(JSON.stringify(product)),
+      relatedItems: JSON.parse(JSON.stringify(relatedItems)),
+      isLiked,
+    },
+  };
 };
 
 export default ItemDetail;

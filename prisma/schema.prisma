@@ -41,6 +41,8 @@ model Token {
   payload   String   @unique
   userId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Product {
@@ -58,6 +60,8 @@ model Product {
   // Purchase    Purchase[]
   records     Record[]
   ChatRoom    ChatRoom[]
+
+  @@index([userId])
 }
 
 model Post {
@@ -71,6 +75,8 @@ model Post {
   wondering Wondering[]
   latitude  Float?
   longitude Float?
+
+  @@index([userId])
 }
 
 model Answer {
@@ -82,6 +88,9 @@ model Answer {
   answerText String   @db.MediumText
   post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId     Int
+
+  @@index([userId])
+  @@index([postId])
 }
 
 model Wondering {
@@ -92,6 +101,9 @@ model Wondering {
   userId    Int
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
+
+  @@index([userId])
+  @@index([postId])
 }
 
 model Review {
@@ -104,6 +116,9 @@ model Review {
   createdForId Int
   review       String   @db.MediumText
   scroe        Int      @default(1)
+
+  @@index([createdById])
+  @@index([createdForId])
 }
 
 //* Fav, Purchase, Sales와 같이 내용이 같은 model을 만드는 법 === enum
@@ -116,6 +131,9 @@ model Record {
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
   kind      Kind
+
+  @@index([userId])
+  @@index([productId])
 }
 
 enum Kind {
@@ -137,6 +155,8 @@ model Stream {
   cloudflareId  String
   cloudflareUrl String
   cloudflareKey String
+
+  @@index([userId])
 }
 
 model Message {
@@ -148,6 +168,9 @@ model Message {
   userId    Int
   stream    Stream   @relation(fields: [streamId], references: [id])
   streamId  Int
+
+  @@index([userId])
+  @@index([streamId])
 }
 
 model Chat {
@@ -159,6 +182,9 @@ model Chat {
   message    String   @db.MediumText
   chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
   chatRoomId Int
+
+  @@index([userId])
+  @@index([chatRoomId])
 }
 
 model ChatRoom {
@@ -172,4 +198,8 @@ model ChatRoom {
   seller    User     @relation(name: "seller", fields: [sellerId], references: [id], onDelete: Cascade)
   sellerId  Int
   Chat      Chat[]
+
+  @@index([productId])
+  @@index([buyerId])
+  @@index([sellerId])
 }
