@@ -8,6 +8,7 @@ import { cls } from "@libs/client/utils";
 import { withSsrSession } from "@libs/server/withSession";
 import client from "@libs/server/client";
 import { Suspense } from "react";
+import Image from "next/image";
 
 interface ReviewWithUser extends Review {
   createdBy: User;
@@ -66,7 +67,7 @@ const MiniProfile = () => {
     <>
       <div className="flex items-center mt-4 space-x-3">
         {user?.avatar ? (
-          <img
+          <Image
             src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${user.avatar}/avatar`}
             className="w-16 h-16 bg-slate-500 rounded-full"
           />
