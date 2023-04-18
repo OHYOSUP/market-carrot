@@ -67,7 +67,7 @@ const MiniProfile = () => {
     <>
       <div className="flex items-center mt-4 space-x-3">
         {user?.avatar ? (
-          <Image
+          <img
             src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${user.avatar}/avatar`}
             className="w-16 h-16 bg-slate-500 rounded-full"
           />
