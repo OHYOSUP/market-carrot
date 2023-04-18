@@ -5,12 +5,12 @@ import useSWR from "swr";
 interface EditProfileResponse {
   email?: string;
   phone?: string;
-
 }
 
-
 export default function useUser<EditProfileResponse>() {
-  const { data, error } = useSWR("/api/users/me");
+  const { data, error } = useSWR(
+    typeof window === "undefined" ? null : "/api/users/me"
+  );
   const router = useRouter();
 
   useEffect(() => {

@@ -19,7 +19,9 @@ interface ReviewResponse {
 }
 
 const Reviews = () => {
-  const { data } = useSWR<ReviewResponse>("/api/reviews");
+  const { data } = useSWR<ReviewResponse>(
+    typeof window === "undefined" ? null : "/api/reviews"
+  );
   return (
     <>
       {data?.reviews.map((review) => (
@@ -170,7 +172,7 @@ const Page: NextPage = () => {
   return (
     <SWRConfig
       value={{
-        // suspense : <Suspens> 컴포넌트 안에 있는 swr데이터가 로딩되기까지 기다렸다가 데이터가 들어오면 그리겠다
+        // suspense : <Suspens> 컴포넌트 안에 있는 swr데이터가 로딩되기까지 기다렸다가 데이터가 들어오면 그려준다
         suspense: true,
       }}
     >
