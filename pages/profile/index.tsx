@@ -5,8 +5,6 @@ import useUser from "@libs/client/useUser";
 import useSWR, { SWRConfig } from "swr";
 import { Review, User } from "@prisma/client";
 import { cls } from "@libs/client/utils";
-import { withSsrSession } from "@libs/server/withSession";
-import client from "@libs/server/client";
 import { Suspense } from "react";
 import Image from "next/image";
 
