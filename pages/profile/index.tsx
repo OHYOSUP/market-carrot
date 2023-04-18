@@ -7,7 +7,7 @@ import { Review, User } from "@prisma/client";
 import { cls } from "@libs/client/utils";
 import { withSsrSession } from "@libs/server/withSession";
 import client from "@libs/server/client";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 
 interface ReviewWithUser extends Review {
@@ -20,9 +20,18 @@ interface ReviewResponse {
 }
 
 const Reviews = () => {
-  const { data } = useSWR<ReviewResponse>(
-    typeof window === "undefined" ? null : "/api/reviews"
-  );
+
+  const [url, setUrl] = useState("");
+  useEffect(() => {
+  setUrl("/api/reviews");
+  }, []);
+  const { data } = useSWR<ReviewResponse>(url);
+
+  // const [url, setUrl] = useState("");
+  // useEffect(() => {
+  //   setUrl("/api/reviews");
+  // }, []);
+  // const { data } = useSWR<ReviewResponse>(url);
   return (
     <>
       {data?.reviews.map((review) => (

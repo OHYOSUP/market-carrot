@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 interface EditProfileResponse {
@@ -8,10 +8,16 @@ interface EditProfileResponse {
 }
 
 export default function useUser<EditProfileResponse>() {
-  const { data, error } = useSWR(
-    typeof window === "undefined" ? null : "/api/users/me"
-  );
+  // const { data, error } = useSWR(
+  //   typeof window === "undefined" ? null : "/api/users/me"
+  // );
   const router = useRouter();
+
+  const [url, setUrl] = useState("");
+  useEffect(() => {
+    setUrl("/api/reviews");
+  }, []);
+  const { data, error } = useSWR(url);
 
   useEffect(() => {
     if (data && !data.ok) {

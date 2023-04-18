@@ -87,7 +87,7 @@ const CommunityPostDetail: NextPage = () => {
 
   const { user } = useUser();
 
-  console.log(data);
+  
   return (
     <Layout
       title={`${data?.post.question.slice(0, 5)}... | 동네생활`}
