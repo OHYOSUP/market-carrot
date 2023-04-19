@@ -9,26 +9,44 @@ import {
 
 
 export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
-  if (userAgent(req).isBot) {
-    return NextResponse.rewrite(new URL('/enter', req.url))
+  // if (!userAgent(req).isBot) {
+  //   return new Response("로봇은 입장이 안됩니다🤖", { status: 403 })
+  // }
+
+
+
+  // if (!req.url.includes("api")) {
+  //   if (!req.url.includes("/enter") && !req.cookies.has("carrotsession")) {
+  //     req.nextUrl.pathname = "/enter"
+
+  //     return NextResponse.redirect(req.nextUrl)
+  //   }
+  //   return NextResponse.next();
+  // }
+
+  if (req.nextUrl.pathname.startsWith("/")) {
+    const ua = userAgent(req);
+    if (ua?.isBot) {
+      return new Response("Plz don't be a bot. Be human.", { status: 403 });
+    }
+  }
+  if (req.nextUrl.pathname.startsWith("/api")) {
+    if (!req.url.includes("/enter") && !req.cookies.get("carrotsession")) {
+      console.log("carrotsession");
+      NextResponse.redirect(`${req.nextUrl.origin}/enter`);
+    }
   }
 
-  if (!req.cookies.has("carrotsession") && !req.url.includes("/enter")) {
-    const res = NextResponse.next();
-    const session = await getIronSession(req, res, {
-      cookieName: "carrotsession",
-      password: process.env.IRON_SESSION_PASSWORD!,
-      cookieOptions: {
-        secure: process.env.NODE_ENV! === "production",
-      },
-    });
-
-
-    req.nextUrl.searchParams.set("from", req.nextUrl.pathname);
-    req.nextUrl.pathname = "/enter";
-    return NextResponse.redirect(req.nextUrl);
-  }
-};
+  return NextResponse.next();
+}
 export const config = {
-  matcher: ["/((?!api|_next/static|favicon.ico).*)"],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|favicon.ico).*)',
+  ],
 };

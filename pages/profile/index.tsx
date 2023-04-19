@@ -25,6 +25,7 @@ const Reviews = () => {
   useEffect(() => {
   setUrl("/api/reviews");
   }, []);
+  
   const { data } = useSWR<ReviewResponse>(url);
 
   // const [url, setUrl] = useState("");
