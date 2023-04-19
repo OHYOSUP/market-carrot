@@ -19,7 +19,7 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
       cookieName: "carrotsession",
       password: process.env.IRON_PW!,
       cookieOptions: {
-        secure: process.env.NODE_ENV! === "production", // if you are using https
+        secure: process.env.NODE_ENV! === "production",
       },
     });
 
