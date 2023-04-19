@@ -9,7 +9,7 @@ import {
 
 export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   if (userAgent(req).isBot) {
-    // 새로운 error 화면을 만들고 그쪽으로 rewrite 시켜줄것
+    return NextResponse.rewrite(new URL('/enter', req.url))
   }
 
 
