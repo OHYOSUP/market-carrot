@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Layout from "@components/layout";
 import ProductList from "@components/product-list";
 import useSWR from "swr";
-// 
+
 const Bought: NextPage = () => {
   const { isLoading } = useSWR("/api/users/me/record?kind=Purchase");
   return (
