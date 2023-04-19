@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-server-import-in-page */
 import { getIronSession } from "iron-session/edge";
 import {
   NextFetchEvent,
@@ -12,17 +13,17 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
     return NextResponse.rewrite(new URL('/enter', req.url))
   }
 
+  if (!req.cookies.has("carrotsession") && !req.url.includes("/enter")) {
+    const res = NextResponse.next();
+    const session = await getIronSession(req, res, {
+      cookieName: "carrotsession",
+      password: process.env.IRON_PW!,
+      cookieOptions: {
+        secure: process.env.NODE_ENV! === "production", // if you are using https
+      },
+    });
 
-  const res = NextResponse.next();
-  const session = await getIronSession(req, res, {
-    cookieName: "carrotsession",
-    password: process.env.IRON_PW!,
-    cookieOptions: {
-      secure: process.env.NODE_ENV! === "production", // if you are using https
-    },
-  });
 
-  if (!session.user && !req.url.includes("/enter")) {
     req.nextUrl.searchParams.set("from", req.nextUrl.pathname);
     req.nextUrl.pathname = "/enter";
     return NextResponse.redirect(req.nextUrl);
@@ -30,4 +31,4 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
 };
 export const config = {
   matcher: ["/((?!api|_next/static|favicon.ico).*)"],
-}
+};
