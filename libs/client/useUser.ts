@@ -15,7 +15,7 @@ export default function useUser<EditProfileResponse>() {
 
   const [url, setUrl] = useState("");
   useEffect(() => {
-    setUrl("/api/reviews");
+    setUrl("/api/users/me");
   }, []);
   const { data, error } = useSWR(url);
 
