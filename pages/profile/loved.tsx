@@ -3,6 +3,7 @@ import Layout from "@components/layout";
 import ProductList from "@components/product-list";
 import useSWR from "swr";
 
+
 const Loved: NextPage = () => {
   const {data, isLoading } = useSWR("/api/users/me/record?kind=Fav");
 
