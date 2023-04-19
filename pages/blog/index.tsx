@@ -18,7 +18,7 @@ const Blog: NextPage<{ posts: Posts[] }> = ({ posts }) => {
       <ul>
         {posts.map((post, index) => (
           <div key={index} className="mb-5">
-            <Link href={`/blog/${post.slug}`}>
+            <Link legacyBehavior href={`/blog/${post.slug}`}>
               <a>
                 <span className="text-lg text-red-500">{post.title}</span>
                 <div>

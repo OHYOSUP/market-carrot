@@ -85,7 +85,7 @@ const MiniProfile = () => {
         )}
         <div className="flex flex-col">
           <span className="font-medium text-gray-900">{user?.name}</span>
-          <Link href="/profile/edit">
+          <Link legacyBehavior href="/profile/edit">
             <a className="text-sm text-gray-700">Edit profile &rarr;</a>
           </Link>
         </div>
@@ -102,7 +102,7 @@ const Profile: NextPage = () => {
           <MiniProfile />
         </Suspense>
         <div className="mt-10 flex justify-around">
-          <Link href="/profile/sold">
+          <Link legacyBehavior href="/profile/sold">
             <a className="flex flex-col items-center">
               <div className="w-14 h-14 text-white bg-orange-400 rounded-full flex items-center justify-center">
                 <svg
@@ -125,7 +125,7 @@ const Profile: NextPage = () => {
               </span>
             </a>
           </Link>
-          <Link href="/profile/bought">
+          <Link legacyBehavior href="/profile/bought">
             <a className="flex flex-col items-center">
               <div className="w-14 h-14 text-white bg-orange-400 rounded-full flex items-center justify-center">
                 <svg
@@ -148,7 +148,7 @@ const Profile: NextPage = () => {
               </span>
             </a>
           </Link>
-          <Link href="/profile/loved">
+          <Link legacyBehavior href="/profile/loved">
             <a className="flex flex-col items-center">
               <div className="w-14 h-14 text-white bg-orange-400 rounded-full flex items-center justify-center">
                 <svg

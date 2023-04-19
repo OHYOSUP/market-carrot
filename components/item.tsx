@@ -20,7 +20,7 @@ export default function Item({
   id,
 }: ItemProps) {
   return (
-    <Link href={`/products/${id}`}>
+    <Link legacyBehavior href={`/products/${id}`}>
       <a className="flex px-4 pt-5 cursor-pointer justify-between">
         <div className="flex space-x-4">
           {imageURL.length > 5 ? (

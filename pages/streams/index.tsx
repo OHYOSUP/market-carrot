@@ -33,7 +33,7 @@ const Live: NextPage = () => {
     <Layout hasTabBar title="당근마켓 라이브" pageTitle="라이브 | 당근마켓">
       <div className=" divide-y-[1px] space-y-4">
         {streams?.map((stream) => (
-          <Link key={stream.id} href={`/streams/${stream.id}`}>
+          <Link legacyBehavior key={stream.id} href={`/streams/${stream.id}`}>
             <a className="pt-4 block  px-4">
               <div className="w-full relative rounded-md shadow-sm bg-slate-300 aspect-video">
                 <Image alt="stream thumbnail" layout="fill" src={`https://videodelivery.net/${stream.cloudflareId}/thumbnails/thumbnail.jpg?`} />

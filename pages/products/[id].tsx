@@ -97,7 +97,7 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({
               <p className="text-sm font-medium text-gray-700">
                 {product?.user?.name}
               </p>
-              <Link href={`/users.profiles/${product?.user?.id}`}>
+              <Link legacyBehavior href={`/users.profiles/${product?.user?.id}`}>
                 <a className="text-xs font-medium text-gray-500">
                   View profile &rarr;
                 </a>
@@ -156,7 +156,7 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({
           <div className=" mt-6 grid grid-cols-2 gap-4">
             {relatedItems?.map((product) => (
               <div key={product.id}>
-                <Link href={`/products/${product.id}`}>
+                <Link legacyBehavior href={`/products/${product.id}`}>
                   <a>
                     <img
                       width={200}

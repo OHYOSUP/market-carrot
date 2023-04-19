@@ -110,7 +110,7 @@ const CommunityPostDetail: NextPage = () => {
             <p className="text-sm font-medium text-gray-700">
               {data?.post.user.name}
             </p>
-            <Link href={`/users.post/${data?.post.user.id}`}>
+            <Link legacyBehavior href={`/users.post/${data?.post.user.id}`}>
               <a className="text-xs font-medium text-gray-500">
                 View profile &rarr;
               </a>

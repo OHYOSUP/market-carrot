@@ -23,7 +23,7 @@ const Chats: NextPage = () => {
     <Layout pageTitle="당근채팅 | 당근마켓" hasTabBar title="채팅">
       <div className="divide-y-[1px] ">
         {data?.chatRoom.map((chatingRoom) => (
-          <Link href={`/chats/${chatingRoom.id}`} key={chatingRoom.id}>
+          <Link legacyBehavior href={`/chats/${chatingRoom.id}`} key={chatingRoom.id}>
             <a className="flex px-4 cursor-pointer py-3 items-center space-x-3">
               <img
                 src={`https://imagedelivery.net/qAo6HOS4v4y6BS793NiRZw/${chatingRoom.seller.avatar}/avatar`}
