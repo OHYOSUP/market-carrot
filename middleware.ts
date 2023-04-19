@@ -17,7 +17,7 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
     const res = NextResponse.next();
     const session = await getIronSession(req, res, {
       cookieName: "carrotsession",
-      password: process.env.IRON_PW!,
+      password: process.env.IRON_SESSION_PASSWORD!,
       cookieOptions: {
         secure: process.env.NODE_ENV! === "production",
       },
