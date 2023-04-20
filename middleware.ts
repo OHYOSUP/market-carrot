@@ -27,7 +27,7 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   if (req.nextUrl.pathname.startsWith("/")) {
     const ua = userAgent(req);
     if (ua?.isBot) {
-      return new Response("Plz don't be a bot. Be human.", { status: 403 });
+      return new Response("로봇은 입장할 수 없습니다🤖", { status: 403 });
     }
   }
   if (req.nextUrl.pathname.startsWith("/api")) {
